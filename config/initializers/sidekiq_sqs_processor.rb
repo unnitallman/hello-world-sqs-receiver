@@ -3,7 +3,7 @@ SidekiqSqsProcessor.configure do |config|
   config.aws_secret_access_key = ENV['SQS_AWS_SECRET_ACCESS_KEY']
   config.aws_region = 'us-east-1'
 
-  config.queue_urls = ["https://sqs.us-east-1.amazonaws.com/348674388966/fanout-receiver-2"] # Add your queue URLs here, e.g. ['https://sqs.us-east-1.amazonaws.com/123456789012/my-queue']
+  config.queue_urls = [ENV['SQS_QUEUE_URL']] # Add your queue URLs here, e.g. ['https://sqs.us-east-1.amazonaws.com/123456789012/my-queue']
   
   config.visibility_timeout = 60    # 1 minutes
   config.max_number_of_messages = 10 # Max messages per receive call
