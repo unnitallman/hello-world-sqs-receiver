@@ -16,7 +16,6 @@ class SqsProcessorWorker < SidekiqSqsProcessor::BaseWorker
   private
   
   def process_user_created(user_data)
-    p user_data
     guid = user_data['guid']
     user = User.find_by(guid: guid)
     if user.nil?
