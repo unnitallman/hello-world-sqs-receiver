@@ -4,7 +4,7 @@ class SqsProcessorWorker < SidekiqSqsProcessor::BaseWorker
     message_body = JSON.parse(message["Message"])
 
     case message_body['type']
-    when 'user_created'
+    when 'user_sync'
       process_user_created(message_body['data'])
     when 'order_placed'
       process_order_placed(message_body['data'])
@@ -16,7 +16,14 @@ class SqsProcessorWorker < SidekiqSqsProcessor::BaseWorker
   private
   
   def process_user_created(user_data)
-    logger.info("Processing user created event")
+    p user_data
+    guid = user_data['guid']
+    user = User.find_by(guid: guid)
+    if user.nil?
+      user = User.create(user_data)
+    else
+      user.update(user_data)
+    end
   end
   
   def process_order_placed(order_data)
